@@ -1,0 +1,69 @@
+Please share all required information/documentation/data/sample commands etc. for Digisens Integration. 
+Everything is listed in the K321e-06_lowa_protocol.pdf document
+Which interfaces are supported (RS485, RS232, TCP/IP)?
+RS485
+⁠If only RS485/RS232 is available, do you recommend specific converters (RS485-to-USB/Ethernet)?
+No, we don’t use converters and can’t recommend a specific one
+What are the default communication parameters (baud rate, parity, stop bits), and can they be changed?
+See K321e-06_lowa_protocol.pdf
+Only the baud rate can be changed, default is 9600
+Is there a Python SDK, library, or example code available for integration?
+No
+Can you provide the full command set with request/response examples?
+See K321e-06_lowa_protocol.pdf
+Is communication strictly ASCII or are binary formats also supported?
+Strictly ASCII
+Can we use a push/streaming mode for continuous readings, or is polling the only method?
+Polling is the only method
+How do we configure and assign IDs to multiple sensors?
+Each sensor has a unique ID defined during the production process
+You should not configure any ID; however, you have to do the mapping between the ID and the position in the shop on your side
+ When using multiple sensors, does ⁠ gl ⁠ (get all weights) return values from one MUX or from all connected devices?
+It will return the weight of all scales of the shelf, not all weight of all shelfs
+ Is there a way to group sensors (e.g., per shelf/aisle) for easier queries?
+Only with gl (get all weights) (per shelf)
+ What is the maximum safe polling frequency (your docs mention 200 ms measurement, 1 s polling)?
+This is when polling the same sensor, you can request the weight of one sensor, get the answer, and then request the weight of another one directly
+The electronic in the shelf need 200 ms (integration time) to measure one sensor and compute the weight.
+ What happens if we poll faster than 200 ms?
+See above, if you poll the same sensors multiple time too fast, the weight will stay the same
+ Are readings from multiple sensors synchronized, or read sequentially?
+The electronic on the shelf measures the sensors all the time (sequentially)
+ Since ⁠ sz ⁠ writes to EEPROM, what is the recommended way to handle tare in software?
+No this should be handled by the upper layer software
+ Is there a command for a temporary tare offset (without EEPROM write)?
+No
+ What is the process for calibration (hardware vs software)?
+This is done during our production. Each shelf is calibrated when it is shipped to the customer.
+We only recommend to zero all the scales of a shelf after the installation and then once a year.
+ How many MUX units can be connected on one RS485 bus?
+As much as you want. The limitations are:
+Length of the cable (signal could get too bad with long cable)
+Power supply since all MUX are using the same power supply
+This is why you should have multiple repeaters which will provide supply for the MUXs and replicate the RS485 signal
+ What is the maximum number of sensors supported in a single system?
+As much as you want
+ How do we avoid addressing conflicts across multiple devices?
+Each scale has a unique ID (please use the ‘#’ commands not the ‘@’)
+ Can you share the latest datasheets, detailed protocol guide, and integration examples (preferably in Python)?
+See K321e-06_lowa_protocol.pdf
+If needed we can also provide you with the shelf datasheet however it contains mechanical information, nothing related to software
+We don’t have integration examples
+For your application you only need a limited set of commands (in my opinion):
+
+Zeroing (sz)
+get all weight (gl)
+change baudrate (if needed)  (br)
+Each sensor has a unique ID defined during production. The addressing looks like this:
+
+MUX id: 0120220429103142
+Scale 00: 012022042910314200
+Scale 01: 012022042910314201
+Scale 02: 012022042910314202
+…
+Scale 07: 012022042910314207
+If you need faster polling time, you could have multiple converter which correspond to multiple RS485 bus. For example, you could have 4 threads working in parallel on 4 RS485 bus and requesting the weight of 4 sensors at the same time. It makes the mapping a little bit more complicated (more work on your side to know which sensor is connected to which bus).
+
+Best regards
+
+Romain

@@ -1,0 +1,10 @@
+# DIGIsens Python Interface Requirements
+# Install with: pip install -r requirements.txt
+
+# Serial communication
+pyserial>=3.5
+
+# Optional: For advanced features
+# numpy>=1.21.0        # For data analysis
+# pandas>=1.3.0        # For logging/data export
+# matplotlib>=3.4.0    # For visualization
