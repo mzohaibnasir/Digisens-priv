@@ -244,7 +244,8 @@ def main():
         # {'id': '0120221125084905', 'label': 'MUX 2', 'extended': True},
         # {'id': '0120250919084626', 'label': 'MUX 3', 'extended': True},
         # {'id': '0120221124064344', 'label': 'MUX 4', 'extended': True},  # Standard mode: last 3 digits
-        {'id': '0120250925110711', 'label': 'MUX 5', 'extended': True},
+        # {'id': '0120250925110711', 'label': 'MUX 5', 'extended': True},
+        {'id': '0120221125083650', 'label': 'MUX 6', 'extended': True},
     ]
 
     print_separator()
