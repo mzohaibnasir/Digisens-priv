@@ -131,8 +131,8 @@ def read_mux_weights_gd(ser, mux_id, use_extended=True, num_channels=8):
         try:
             # Build gd command: channel + mode(0=weight, 1=frequency)
             # msg = create_lowa_msg(head, mux_id, "gd", str(channel) + "0")
-            # msg = create_lowa_msg(head, mux_id, "gl", str(channel) + "0")
-            msg = create_lowa_msg(head, mux_id, "gw", str(channel) + "0")
+            msg = create_lowa_msg(head, mux_id, "gl", str(channel) + "0")
+            # msg = create_lowa_msg(head, mux_id, "gw", str(channel) + "0")
 
 
             # Send command
